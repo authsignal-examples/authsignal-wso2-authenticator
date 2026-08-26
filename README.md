@@ -72,7 +72,8 @@ The server-side JAR cannot start WebAuthn inside the browser. The WSO2 login pag
 1. Download the Authsignal Browser SDK into WSO2's `authenticationendpoint` webapp as `authsignal-browser.min.js`.
 2. Copy [`login-page/authsignal-autofill.js`](login-page/authsignal-autofill.js) into the same webapp.
 3. Copy [`login-page/authsignal-config.example.js`](login-page/authsignal-config.example.js) as `authsignal-config.js` and set the public tenant ID, regional API URL, and action.
-4. Load the three scripts from WSO2's supported login-page customization or Basic Auth extension hook. [`login-page/basicauth-extensions.jsp.example`](login-page/basicauth-extensions.jsp.example) shows the required tags.
+4. Copy [`login-page/AuthsignalPasskeyAuthenticator.svg`](login-page/AuthsignalPasskeyAuthenticator.svg) to `authenticationendpoint/libs/themes/default/assets/images/authenticators/` so WSO2 can render the authenticator button icon.
+5. Load the three scripts from WSO2's supported login-page customization or Basic Auth extension hook. [`login-page/basicauth-extensions.jsp.example`](login-page/basicauth-extensions.jsp.example) shows the required tags.
 
 The separate **Sign in with Authsignal Passkey** authenticator button is optional when conditional UI is injected into the stock username field. WSO2 may still render it when the custom authenticator is configured as another option in the same step. The supplied browser script intercepts that specific Authsignal button and opens the explicit passkey picker on the stock WSO2 page instead of navigating to the standalone fallback page.
 
