@@ -35,15 +35,27 @@ GitHub Actions also builds the bundle for every pull request and push to `main`.
    <WSO2_HOME>/repository/conf/deployment.toml
    ```
 
-3. Provide the server-side Authsignal settings to the WSO2 process:
+3. Provide the server-side Authsignal settings to the WSO2 process. Only `AUTHSIGNAL_SECRET` is required when using the default API URL and action:
 
    ```shell
    export AUTHSIGNAL_SECRET="YOUR_SECRET_KEY"
-   export AUTHSIGNAL_API_URL="https://api.authsignal.com/v1"
-   export AUTHSIGNAL_ACTION="signInWithPasskeyAutofill"
+   export AUTHSIGNAL_API_URL="https://api.authsignal.com/v1" # optional
+   export AUTHSIGNAL_ACTION="signInWithPasskeyAutofill"      # optional
    ```
 
    Use the API URL for your Authsignal region. Keep `AUTHSIGNAL_SECRET` on the server; never add it to the login page.
+
+   With Docker Compose, pass the settings to the WSO2 service and keep the secret in a local `.env` file or secret manager:
+
+   ```yaml
+   services:
+     wso2:
+       environment:
+         AUTHSIGNAL_SECRET: ${AUTHSIGNAL_SECRET}
+         AUTHSIGNAL_API_URL: https://api.authsignal.com/v1
+   ```
+
+   For a WSO2 installation started directly from the host, export the variables in the service account's environment before running `wso2server.sh`. For a managed service, configure the same variables in its systemd, Kubernetes, ECS, or equivalent process definition.
 
 4. Restart WSO2 and confirm the server log contains:
 
@@ -62,7 +74,7 @@ The server-side JAR cannot start WebAuthn inside the browser. The WSO2 login pag
 3. Copy [`login-page/authsignal-config.example.js`](login-page/authsignal-config.example.js) as `authsignal-config.js` and set the public tenant ID, regional API URL, and action.
 4. Load the three scripts from WSO2's supported login-page customization or Basic Auth extension hook. [`login-page/basicauth-extensions.jsp.example`](login-page/basicauth-extensions.jsp.example) shows the required tags.
 
-The separate **Sign in with Authsignal Passkey** authenticator button is optional when conditional UI is injected into the stock username field. WSO2 may still render it when the custom authenticator is configured as another option in the same step.
+The separate **Sign in with Authsignal Passkey** authenticator button is optional when conditional UI is injected into the stock username field. WSO2 may still render it when the custom authenticator is configured as another option in the same step. The supplied browser script intercepts that specific Authsignal button and opens the explicit passkey picker on the stock WSO2 page instead of navigating to the standalone fallback page.
 
 ## Identity mapping
 
@@ -79,4 +91,3 @@ Browser -> WSO2 login page -> Authsignal passkey challenge
 ```
 
 The browser receives only the public Authsignal tenant configuration. WSO2 performs the token validation with the secret key before completing its authentication transaction.
-
