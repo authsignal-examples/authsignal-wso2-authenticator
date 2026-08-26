@@ -1,0 +1,37 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven
+
+      - name: Build OSGi bundle
+        run: mvn --batch-mode --no-transfer-progress clean verify
+
+      - name: Upload authenticator JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: authsignal-wso2-authenticator
+          path: target/authsignal-wso2-authenticator-*.jar
+          if-no-files-found: error
+          retention-days: 30
+

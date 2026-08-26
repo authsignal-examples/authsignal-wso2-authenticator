@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in with a passkey</title>
+    <script src="authsignal-browser.min.js" defer></script>
+    <script src="authsignal-config.js" defer></script>
+    <script src="authsignal-autofill.js" defer></script>
+</head>
+<body>
+    <main>
+        <h1>Sign in with a passkey</h1>
+        <form id="loginForm" method="post" action="/commonauth">
+            <input id="sessionDataKey" name="sessionDataKey" type="hidden">
+            <label for="usernameUserInput">Username</label>
+            <input id="usernameUserInput" name="username" type="text" autocomplete="username webauthn">
+        </form>
+    </main>
+    <script>
+        document.getElementById("sessionDataKey").value =
+            new URLSearchParams(window.location.search).get("sessionDataKey") || "";
+    </script>
+</body>
+</html>
+

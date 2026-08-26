@@ -1,0 +1,5 @@
+<%-- Add these scripts to WSO2's Basic Auth login-page extension hook. --%>
+<script src="authsignal-browser.min.js" defer></script>
+<script src="authsignal-config.js" defer></script>
+<script src="authsignal-autofill.js" defer></script>
+

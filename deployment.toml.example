@@ -1,0 +1,7 @@
+[authentication.authenticator.authsignal_passkey]
+name = "AuthsignalPasskeyAuthenticator"
+enable = true
+
+[authentication.authenticator.authsignal_passkey.parameters]
+Tags = "Passwordless"
+
